@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './Chart.css';
+import Line from 'react-chartjs-2';
 
 class Chart extends Component {
-  let LineChart = require("react-chart.js").Line;
 
   constructor(props){
     super(props);
@@ -14,7 +14,7 @@ class Chart extends Component {
   }
 
   render(){
-    return <LineChart data={this.state.data} width="600" height="250"/>;
+    return <Line data={this.state.data} width="600" height="250"/>;
   }
 }
 
