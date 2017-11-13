@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "react": "^16.1.0",
+    "react-chartjs": "^0.8.0",
     "react-dom": "^16.1.0",
     "react-scripts": "1.0.17"
   },
