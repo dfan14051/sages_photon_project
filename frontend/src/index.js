@@ -4,7 +4,5 @@ import './index.css';
 import Chart from './Chart';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<p>"test"</p>,document.getElementById('root'));
-
-ReactDOM.render(<Chart endpoint="/Handle"/>, document.getElementById('root'));
+ReactDOM.render(<Chart/>, document.getElementById('root'));
 registerServiceWorker();
