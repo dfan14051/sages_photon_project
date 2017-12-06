@@ -1,6 +1,6 @@
 import React from 'react';
 import './Chart.css';
-import {Line} from 'react-chartjs-2';
+import {Scatter} from 'react-chartjs-2';
 import axios from 'axios'
 
 class Chart extends React.Component {
@@ -16,7 +16,14 @@ class Chart extends React.Component {
             backgroundColor: 'rgba(252,192,192,0.4)',
             borderColor: 'rgba(252,192,192,1)',
             borderCapStyle: 'butt',
+            borderWidth: 0,
             borderDash: [],
+            line: {
+              backgroundColor: 'rgba(0, 0, 0 ,0)',
+              borderColor: 'rgba(0, 0, 0, 0)',
+              borderWidth: 0,
+              fill: false,
+            },
             xAxisid: 'x',
             borderDashOffset: 0.0,
             borderJoinStyle: 'miter',
@@ -36,9 +43,16 @@ class Chart extends React.Component {
             lineTension: 0.1,
             backgroundColor: 'rgba(252,192,192,0.4)',
             borderColor: 'rgba(252,192,192,1)',
+            borderWidth: 0,
             borderCapStyle: 'butt',
             borderDash: [],
             borderDashOffset: 0.0,
+            line: {
+              backgroundColor: 'rgba(0, 0, 0 ,0)',
+              borderColor: 'rgba(0, 0, 0, 0)',
+              borderWidth: 0,
+              fill: false,
+            },
             borderJoinStyle: 'miter',
             pointBorderColor: 'rgba(252,192,192,1)',
             pointBackgroundColor: '#fff',
@@ -54,6 +68,7 @@ class Chart extends React.Component {
         ]
       }};
     this.options = {
+      showLines: false,
       scales: {
         yAxes: [
           {
@@ -85,6 +100,7 @@ class Chart extends React.Component {
     }
   }
   componentDidMount(){
+    console.log(this.state.temperature)
     this.interval = setInterval(() => {
       axios.get('https://photon-project.appspot.com/handle', {
         params: {
@@ -93,6 +109,7 @@ class Chart extends React.Component {
       }).then((response) => {
         let temp = this.state.temperature
         let hum = this.state.humidity
+        console.log(response)
         for (let key in response['data']['temperature']){
           temp.push({"x":key, "y":response['data']['temperature'][key]})
         }
@@ -106,6 +123,8 @@ class Chart extends React.Component {
       });
       let new_temperature = this.state.temperature
       let new_humidity = this.state.humidity
+      console.log(new_temperature)
+      console.log(new_humidity)
       this.setState({data: {
         datasets: [
           {
@@ -117,14 +136,23 @@ class Chart extends React.Component {
             borderCapStyle: 'butt',
             borderDash: [],
             xAxisid: 'x',
+            elements: {
+              line: {
+                backgroundColor: 'rgba(0, 0, 0 ,0)',
+                borderWidth: 0,
+                borderColor: 'rgba(0, 0, 0, 0)',
+                fill: false,
+              }
+            },
             borderDashOffset: 0.0,
+            borderWidth: 0,
             borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(252,192,192,1)',
+            pointBorderColor: 'rgba(256,256,256,1)',
             pointBackgroundColor: '#fff',
             pointBorderWidth: 1,
             pointHoverRadius: 5,
             pointHoverBackgroundColor: 'rgba(252,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBorderColor: 'rgba(256,256,256,1)',
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
@@ -138,8 +166,17 @@ class Chart extends React.Component {
             borderCapStyle: 'butt',
             borderDash: [],
             borderDashOffset: 0.0,
+            borderWidth: 0,
+            elements: {
+              line: {
+                backgroundColor: 'rgba(0, 0, 0 ,0)',
+                borderWidth: 0,
+                borderColor: 'rgba(0, 0, 0, 0)',
+                fill: false,
+              }
+            },
             borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(252,192,192,1)',
+            pointBorderColor: 'rgba(256,256,256,1)',
             pointBackgroundColor: '#fff',
             pointBorderWidth: 1,
             pointHoverRadius: 5,
@@ -156,7 +193,7 @@ class Chart extends React.Component {
       this.state.data.datasets[1].data.sort((a, b) => { return a.x - b.x });
       this.setState({date : new Date()})
       this.setState({ time: this.state.date.getTime() });
-    }, 10000);
+    }, 1000);
   }
   // printState(){
   //   console.log(this.state)
@@ -178,7 +215,7 @@ class Chart extends React.Component {
   render(){
     return (<div id='chart'>
     <h2>DHT11 Temperature and Humidity Sensor</h2>
-    <Line data={this.state.data} options={this.options}/>
+    <Scatter data={this.state.data} options={this.options}/>
     </div>);
   }
 }
